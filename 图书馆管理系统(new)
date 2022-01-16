@@ -1,0 +1,308 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<windows.h> 
+#define M 100
+////
+////创建图书信息结构体 
+struct Books{//声明结构体类型 
+	char bookName[100];//书名 
+	int num;//书号 
+	char writter[100];//作者 
+	char press[100];//出版社 
+	float price;//价格 
+}book[M];//定义结构体数组 
+int N = 0;//总图书数量 
+struct Books temp; 
+////-----图书信息的添加板块----- 
+void Input(){
+	int n,m;
+	system("cls");
+	printf("准备录入的书的本数：");
+	scanf("%d",&n);
+	m = n;
+	for(int i = 0;i < n;i ++){
+		system("cls");
+		printf("还有%d本书未被录入，请输入相关信息\n（如若没有相关信息请输入-->无）\n",m);
+		printf("-----------------------------------\n");
+		printf("| 书的编号：");
+		scanf("%d",&temp.num);
+		printf("| 书名：");
+		scanf("%s",temp.bookName);
+		printf("| 书的作者：");
+		scanf("%s",temp.writter);
+		printf("| 出版社：");
+		scanf("%s",temp.press);
+		printf("| 书的价格/￥:");
+		scanf("%f",&temp.price);
+		printf("-----------------------------------\n"); 
+		m --; 
+		book[N ++] = temp;
+	} 
+	printf("已成功录入%d本书，3秒后跳转回功能页;",n); 
+	Sleep(3000);
+} 
+//----图书信息的修改板块------
+int Revise_part(int j){
+	int t1,o,i; 
+	char t2[100];//把准备修改的字符存储在 t2 里面，准备修改的数字存储在 t1 里面 
+	printf("---------------\n");
+	printf("|| 1:修改书的编号||\n");
+	printf("|| 2:修改书名    ||\n");
+	printf("|| 3:修改作者    ||\n");
+	printf("|| 4:修改价格    ||\n");
+	printf("|| 5:修改出版社  ||\n");
+	printf("----------------\n"); 
+	printf("请选择你要修改的信息：");
+	scanf("%d",&o);
+	if(o >= 1 && o <= 5){
+		switch(o){
+			case 1: printf("输出要修改的编号：");
+					scanf("%d",&t1);
+					book[j].num = t1; 
+				break;
+			case 2: printf("输出要修改的书名：");
+					scanf("%s",t2);
+					for(i = 0;i < strlen(t2);i ++)
+					book[j].bookName[i] = t2[j];
+				break;
+			case 3: printf("输出要修改的作者：");
+					scanf("%s",t2);
+					for(i = 0;i < strlen(t2);i ++)
+					book[j].writter[i] = t2[j];
+				break;
+			case 4: printf("输出要修改的价格：");
+					scanf("%d",&t1);
+					book[j].price = t1; 
+				break;
+			case 5: printf("输出要修改的出版社：");
+					scanf("%s",t2);
+					for(i = 0;i < strlen(t2);i ++)
+					book[j].press[i] = t2[j];
+				break;
+			
+				}
+	}
+	return t1;
+}
+void Revise(){
+	int nums;
+	int orders;
+	char names[20];
+	int i,j,key; 
+	lable_2:system("cls");
+	printf("------------------------------------------------------\n");
+	printf("|| 1、根据图书编号查询修改  2、根据图书书名查询修改 ||\n");
+	printf("------------------------------------------------------\n");
+	printf("请输入查询修改方式：");
+	scanf("%d",&orders);
+	j = -1;
+	if(orders == 1){
+		printf("请输入书的编号："); 
+		scanf("%d",&nums); 
+		for(i = 0;i < N;i ++){
+			if(book[i].num == nums){
+				j = i;
+			}
+		}
+	}else if(orders == 2){
+		printf("请输入书名：");
+		scanf("%s",names);
+		for(int i = 0;i < N;i ++){
+			if(strcmp(names,book[i].bookName) == 0){
+				j = i;
+			}
+		}
+	}
+	if(j == -1){
+		printf("本书库暂时还没有这本书>_<!!!\n");
+		printf("\n是否继续修改？？？【继续请按1//若不继续请按2跳转功能页】：");
+		scanf("%d",&key);
+		if(key == 1){
+			goto lable_2;
+		}		
+	}else if(j != -1){
+		Revise_part(j);
+		printf("\n是否继续修改？？？【继续请按1//若不继续请按2跳转功能页】："); 
+		scanf("%d",&key);
+		if(key == 1){
+			goto lable_2;
+		}
+	}
+} 
+//图书信息的查询板块
+void Query(){
+	int orders;
+	int nums;
+	int i,j = -1,t = 0,key;
+	char names[100]; 
+	system("cls");
+	printf("请选择查询方式\n");
+	printf("1:编号查询    2:书名查询\n");
+	printf("\n\n请输入查询选项：");
+	scanf("%d",&orders);
+	if(orders == 1){
+		printf("请输入图书编号：");
+		scanf("%d",&nums);
+		for(i = 0;i < N;i ++){
+			if(book[i].num == nums){
+				j = i;
+				t ++;
+			}
+		}	 
+	}else if(orders == 2){
+		printf("请输入图书的书名：");
+		scanf("%s",names);
+		for(i = 0;i < N;i ++){
+			if(strcmp(book[i].bookName,names) == 0){
+				j = i;
+				t ++;
+			}
+		}
+	}
+	if(j == -1 && t == 0){
+		printf("本书库暂时还没有这本书>_<!!!\n");
+		printf("按2键后回车返回功能页:"); 
+		scanf("%d",&key); 
+	}else if(j != -1 && t != 0){
+		system("cls");
+		printf("\n---------------------------------------------------------------\n");
+		printf("编号:%d\n书名:%s\n作者:%s\n出版社:%s\n价格:%.2f\n",book[j].num,book[j].bookName,book[j].writter,book[j].press,book[j].price);
+		printf("\n------------------------------------------------------------------\n"); 
+		printf("按2键后回车返回功能页:"); 
+		scanf("%d",&key); 
+	}
+} 
+//-------图书信息删除板块---------
+int Delete_part(int j){
+	int o,i; 
+	/*printf("-----------------------\n");
+	printf("|| 1:删除书的编号    ||\n");
+	printf("|| 2:删除书名        ||\n");
+	printf("|| 3:删除作者        ||\n");
+	printf("|| 4:删除价格        ||\n");
+	printf("|| 5:删除出版社      ||\n");
+	printf("|| 6:删除图书全部信息||\n"); 
+	printf("-----------------------\n"); */
+	printf("请输入1开始删除：");
+	scanf("%d",&o);
+	if(1){
+		switch(o){
+			/*case 1: book[j].num = 0; 
+				break;
+			case 2: book[j].bookName[i] ='no';
+				break;
+			case 3: book[j].writter[i] = 'no';
+				break;
+			case 4: book[j].price = 0; 
+				break;
+			case 5:	book[j].press[i] = 0;
+				break;*/
+			case 1: N = N - 1;
+					for(i = j;i < N;i ++){ 
+					book[i] = book[i + 1];
+					book[i].num = book[i + 1].num;
+					strcpy(book[i].bookName,book[i + 1].bookName);
+					strcpy(book[i].press,book[i + 1].press);
+					strcpy(book[i].writter,book[i + 1].writter);
+					book[i].price = book[i + 1].price;
+				}
+				break;
+		}
+	}
+	return 0;
+}
+void Delete(){
+	int nums;
+	int orders;
+	char names[100];
+	int i,j = -1,key;
+	lable_4:system("cls");
+	printf("------------------------------------------------------\n");
+	printf("|| 1、根据图书编号查询删除  2、根据图书书名查询删除 ||\n");
+	printf("------------------------------------------------------\n");
+	printf("请输入查询删除方式：");
+	scanf("%d",&orders);
+	if(orders == 1){
+		printf("请输入你想要删除的图书编号：");
+		scanf("%d",&nums);
+		for(i = 0;i < N;i ++){
+			if(book[i].num == nums){
+				j = i;
+				break; 
+			}
+		}
+	}else if(orders == 2){
+		printf("请输入你想要删除的图书书名：");
+		scanf("%s",names);
+		for(i = 0;i < N;i ++){
+			if(strcmp(book[i].bookName,names) == 0){
+				j = i;
+				break;
+			}
+		} 
+	}
+	if(j == -1){
+		printf("本书库暂时没有这本书>_<!!!\n");
+		printf("\n是否继续查询？？？【继续请按1//若不继续请按2跳转功能页】：");
+		scanf("%d",&key);
+		if(key == 1){
+			goto lable_4;
+		} 
+	}else if(j != -1){
+		Delete_part(j);
+		printf("\n是否继续修改？？？【继续请按1//若不继续请按2跳转功能页】："); 
+		scanf("%d",&key);
+		if(key == 1){
+			goto lable_4;
+		}
+	}
+} 
+
+//-------退出图书管理系统--------
+void Finish(){
+	exit(0);//正常运行并退出程序
+	 
+} 
+ 
+ 
+int main(){
+	int order;//定义存储序号的整型变量 
+	
+	
+	printf("\n       欢迎来到图书管理系统！！！\n");
+	printf("\n由于本系统内无数据请先执行图书信息的添加功能\n");
+	printf("\n\n-------------3秒跳转功能页--------------------");
+	Sleep(3000); //让函数执行挂起3秒时间 
+	while(1){  
+		system("cls");//调用系统命令 cls 完成清屏操作 
+		printf("功能如下：\n");
+		printf("************| 1、图书信息的添加 |**************\n");
+		printf("************| 2、图书信息的修改 |**************\n");
+		printf("************| 3、图书信息的删除 |**************\n");
+		printf("************| 4、图书信息的查询 |**************\n");
+		printf("************| 5、退出本管理系统 |**************\n"); 
+		lable_1:printf("\n\n请输入功能序号：");
+		scanf("%d",&order); 
+		
+		if(order >= 1 && order <= 5){
+			switch(order)
+			{
+				case 1: Input();//添加        
+					break;
+				case 2: Revise();//修改 
+					break;
+				case 3: Delete();//删除 
+					break;
+				case 4: Query();//查询 
+					break;
+				case 5: Finish();//退出 
+					break;
+			}
+		} else{
+			printf("\n输入错误请再次输入");
+			goto lable_1;//跳转 
+		}
+	} 
+} 
