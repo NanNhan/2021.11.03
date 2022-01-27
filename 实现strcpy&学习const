@@ -1,0 +1,93 @@
+#include<stdio.h>
+#include<assert.h>
+//strcpy没优化
+//void my_strcpy(char* dest,char* src)
+//{
+//	while(*src != '\0')
+//	{
+//		*dest = *src;
+//		src++;
+//		dest++;
+//	}//copy'bit'
+//	*dest = *src;//copy'\0'
+//}
+//int main()
+//{
+//	int i = 0,n;
+//	int sum = 1;
+//	int ret = 0;
+//	scanf("%d",&n);
+//	for(i = 1;i<=n;i++)
+//	{
+//		sum = sum*i;
+//		ret = ret + sum;
+//	}
+//	printf("%d",ret);
+//	return 0;
+//}
+
+//access'strcpy'第一次优化
+//void my_strcpy(char* dest,char* src)
+//{
+//	while(*dest++ = *src++)
+//	{
+//		;
+//	}//copy'bit'
+//	//*dest = *src;//copy'\0'
+//}
+//第二次优化
+//void my_strcpy(char* dest,char* src)
+//{
+//	if(dest != NULL&&src !=NULL)
+//	{
+//		while(*dest++ = *src++)
+//		{
+//			;
+//		}//copy'bit'
+//		//*dest = *src;//copy'\0'
+//	}
+//}
+//第三次优化加‘断言’
+//void my_strcpy(char* dest,char* src)
+//{
+//	assert(dest != NULL);//断言
+//	assert(src != NULL);
+//	while(*dest++ = *src++)
+//	{
+//		;
+//	}//copy'bit'
+//	//*dest = *src;//copy'\0'
+//}
+//第四次优化
+//void my_strcpy(char* dest,const char* src)
+//{
+//	assert(dest != NULL);//断言
+//	assert(src != NULL);
+//	while(*dest++ = *src++)
+//	{
+//		;
+//	}//copy'bit'
+//	//*dest = *src;//copy'\0'
+//}
+//
+//int main()
+//{
+//	//strcpy
+//	char arr1[] = "**********";
+//	char arr2[] = "bit";
+//	my_strcpy(arr1,NULL);
+//	printf("%s\n",arr1);
+//	return 0;
+//}
+int main()
+{
+	const int num = 10;
+	int* const p = &num;
+	//const int* p = &num;
+	//*p = 20;//arror:const 放在指针变量*左边时，修饰的是*p，也就是说：不能通过p改变*p（num）的值
+	//const 放在*右边时修饰的是p本身，p不能改变
+	//*p = 20;
+	
+	printf("%d",num);
+	return 0;
+}
